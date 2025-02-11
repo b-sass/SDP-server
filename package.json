@@ -1,0 +1,17 @@
+{
+  "name": "sdp-server",
+  "version": "0.0.1",
+  "description": "Server for the Chronic Kidney Disease (CKD) app.",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "b-sass, jaynightmare",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongodb": "^6.13.0"
+  }
+}
