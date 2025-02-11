@@ -1,6 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 const uri = process.env.DB_URI;
-const database = "SDP";
+const databaseName = process.env.DB_NAME;
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -19,7 +19,7 @@ try {
 } catch(err) {
   console.error(err);
 }
-let db = connection.db(database);
+let db = connection.db(databaseName);
 
 
 export default db;
