@@ -2,18 +2,18 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", (req, res) => {
-    res.send("clinitians");
+    res.send("clinicians");
 });
 
-let getAllClinitians = () => {
+let getAllclinicians = () => {
 
 };
 
-let getClinitian = (num) => {
+let getClinician = (num) => {
 
 };
 
-let getClinitianPatients = (num) => {
+let getClinicianPatients = (num) => {
     
 }
 

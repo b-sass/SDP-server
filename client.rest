@@ -1,0 +1,9 @@
+POST http://localhost:1984/auth/register
+Content-Type: application/json
+
+{
+    "type": "patient",
+    "id": 3254365476,
+    "email": "hello@qwett.com",
+    "password": "securepassword123"
+}
