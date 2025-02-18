@@ -5,8 +5,6 @@ export async function Register(req, res) {
     const { type, id, email, password } = req.body;
     console.log(`My ID is: ${id}`);
     try {
-        // TODO: 
-
         if (type === "patient") {
             var newUser = new Patient({
                 id,
@@ -34,13 +32,17 @@ export async function Register(req, res) {
             });
 
         const savedUser = await newUser.save();
+        console.log(`1: ${savedUser}`);
         const { ...user_data } = savedUser;
+        
+        console.log(`2: ${savedUser}`);
         res.status(200).json({
             status: "success",
             data: [user_data],
             message: "Registration complete."
         });
     } catch (err) {
+        console.log("ERR:"+ err);
         res.status(500).json({
             status: "error",
             data: [err],

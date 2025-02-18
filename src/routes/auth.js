@@ -14,7 +14,7 @@ router.post(
         .escape(),
     check("id")
         .notEmpty()
-        // .isLength({ min: 8 })
+        .isLength({ min: 8 })
         .withMessage("ID required")
         .escape(),
     check("email")

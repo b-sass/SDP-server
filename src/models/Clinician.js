@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import Patient from "./Patient.js";
+import bcrypt from "bcrypt";
 
-const clinicianschema = new mongoose.Schema({
+const clinicianSchema = new mongoose.Schema({
     id: {
-        type: Number,
-        // maxlength: 10,
+        type: String,
+        maxlength: 10,
         uppercase: true,
         trim: true,
         unique: true,
@@ -32,7 +32,7 @@ const clinicianschema = new mongoose.Schema({
 
 // Duplicated code
 // Password hashing
-clinicianschema.pre("save", function (next) {
+clinicianSchema.pre("save", function (next) {
     const user = this;
 
     if (!user.isModified("password")) return next();
@@ -48,4 +48,4 @@ clinicianschema.pre("save", function (next) {
     });
 });
 
-export default mongoose.model("clinician", clinicianschema);
+export default mongoose.model("clinician", clinicianSchema);
