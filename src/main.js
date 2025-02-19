@@ -20,7 +20,7 @@ mongoose.promise = global.Promise;
 mongoose.set("strictQuery", false);
 mongoose
     .connect(process.env.DB_URI)
-    .then(console.log("Connected to database"))
+    .then(console.log("Connected to database, Your Mother"))
     .catch((err) => console.log(err));
 
 app.use("/", patientRouter)
