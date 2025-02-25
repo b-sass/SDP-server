@@ -59,6 +59,9 @@ const PatientSchema = new mongoose.Schema({
     },
     results: {
         type: [ResultSchema],
+    },
+    clinitian: {
+        type: String,
     }
 });
 
