@@ -1,7 +1,8 @@
 import Clinician from "../models/Clinician.js";
 import Patient from "../models/Patient.js";
+import bcrypt from "bcrypt";
 
-export async function Register(req, res) {
+async function Register(req, res) {
     const { type, id, email, password } = req.body;
     console.log(`My ID is: ${id}`);
     try {
@@ -51,3 +52,45 @@ export async function Register(req, res) {
     }
     res.end();
 }
+
+async function Login(req, res) {
+    const { email, password } = req.body;
+
+    try {
+        let user = await Clinician.findOne({ "email": email});
+        if (!user) {
+            user = await Patient.findOne({ "email": email});
+        }
+        if (!user) {
+            return res.status(400).json({
+                status: "failed",
+                userData: [],
+                message: "User does not exist"
+            });
+        }
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+            return res.status(400).json({
+                status: "failed",
+                userData: [],
+                message: "Incorrect password"
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            userData: [user],
+            message: "Login successful"
+        });
+    } catch (err) {
+        console.log("ERR:"+ err);
+        res.status(500).json({
+            status: "error",
+            error: [err],
+            message: "Internal Server Error",
+        })
+    };
+    res.end();
+}
+
+export { Register, Login };
+

@@ -21,5 +21,4 @@ try {
 }
 let db = connection.db(databaseName);
 
-
 export default db;

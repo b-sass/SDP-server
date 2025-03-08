@@ -11,7 +11,6 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors());
-app.disable("x-powered-by"); //Reduce fingerprinting
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -20,9 +19,10 @@ mongoose.promise = global.Promise;
 mongoose.set("strictQuery", false);
 mongoose
     .connect(process.env.DB_URI)
-    .then(console.log("Connected to database, Your Mother"))
+    .then(console.log("Connected to database."))
     .catch((err) => console.log(err));
 
+// Routes
 app.use("/", patientRouter)
 app.use("/clinicians", clinicianRouter)
 app.use("/auth", authRouter)
@@ -32,4 +32,3 @@ Router(app)
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
-

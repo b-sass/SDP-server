@@ -1,5 +1,5 @@
 import express from "express";
-import { Register } from "../controller/auth.js";
+import { Register, Login } from "../controller/auth.js";
 import Validate from "../middleware/validate.js";
 import { check } from "express-validator";
 
@@ -29,6 +29,11 @@ router.post(
         .escape(),
     Validate,
     Register
+);
+
+router.post(
+    "/login",
+    Login
 );
 
 export default router;
