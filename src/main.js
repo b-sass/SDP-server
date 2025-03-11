@@ -2,6 +2,7 @@ import express from "express";
 import patientRouter from "./routes/patient.js";
 import clinicianRouter from "./routes/clinician.js";
 import authRouter from "./routes/auth.js";
+import calculateRouter from "./routes/calculate.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
@@ -24,8 +25,9 @@ mongoose
 
 // Routes
 app.use("/", patientRouter)
-app.use("/clinicians", clinicianRouter)
+app.use("/", clinicianRouter)
 app.use("/auth", authRouter)
+app.use("/", calculateRouter)
 
 Router(app)
 

@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 const clinicianSchema = new mongoose.Schema({
     id: {
         type: String,
-        maxlength: 10,
+        maxlength: 9,
         uppercase: true,
         trim: true,
         unique: true,

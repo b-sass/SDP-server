@@ -1,5 +1,6 @@
 import Clinician from "../models/Clinician.js";
 import Patient from "../models/Patient.js";
+import { createToken } from "../middleware/token.js";
 import bcrypt from "bcrypt";
 
 async function Register(req, res) {
@@ -28,7 +29,6 @@ async function Register(req, res) {
         if (existingUser)
             return res.status(400).json({
                 status: "failed",
-                data: [],
                 message: "An account with this email address exists already, try to log in instead."
             });
 
@@ -39,14 +39,13 @@ async function Register(req, res) {
         console.log(`2: ${savedUser}`);
         res.status(200).json({
             status: "success",
-            data: [user_data],
             message: "Registration complete."
         });
     } catch (err) {
         console.log("ERR:"+ err);
         res.status(500).json({
             status: "error",
-            data: [err],
+            error: [err],
             message: "Internal Server Error",
         })
     }
@@ -64,7 +63,7 @@ async function Login(req, res) {
         if (!user) {
             return res.status(400).json({
                 status: "failed",
-                userData: [],
+                userToken: [],
                 message: "User does not exist"
             });
         }
@@ -72,13 +71,13 @@ async function Login(req, res) {
         if (!match) {
             return res.status(400).json({
                 status: "failed",
-                userData: [],
+                userToken: [],
                 message: "Incorrect password"
             });
         }
         res.status(200).json({
             status: "success",
-            userData: [user],
+            userToken: createToken(user.id),
             message: "Login successful"
         });
     } catch (err) {
@@ -93,4 +92,3 @@ async function Login(req, res) {
 }
 
 export { Register, Login };
-
