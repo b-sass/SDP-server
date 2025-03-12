@@ -53,12 +53,17 @@ async function Register(req, res) {
 }
 
 async function Login(req, res) {
-    const { email, password } = req.body;
+    const password = req.body.password;
+    const type = req.params.type; 
 
     try {
-        let user = await Clinician.findOne({ "email": email});
-        if (!user) {
-            user = await Patient.findOne({ "email": email});
+        if (type === "patient") {
+            const email = req.body.email;
+            var user = await Patient.findOne({ "email": email });
+        }
+        if (type === "clinician") {
+            const id = req.body.id;
+            var user = await Clinician.findOne({ "id": id });
         }
         if (!user) {
             return res.status(400).json({
