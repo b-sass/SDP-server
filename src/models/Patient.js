@@ -44,6 +44,20 @@ const PatientSchema = new mongoose.Schema({
         trim: true,
         require: [true, "Password is required"],
     },
+    fullname: {
+        type: String,
+        trim: true,
+        require: [true, "Full name is required"],
+    },
+    dob: {
+        type: Date,
+        require: [true, "Date of birth is required"],
+    },
+    phone: {
+        type: String,
+        trim: true,
+        require: [true, "Phone number is required"],
+    },
     age: {
         type: Number,
         min: 0,
