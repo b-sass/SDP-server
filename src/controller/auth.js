@@ -15,7 +15,7 @@ async function Register(req, res) {
                 dob,
                 phone
             });
-            var existingUser = await Patient.findOne({ email })
+            var existingUser = await Patient.findOne({ "id": id })
         }
         else if (type === "clinician") {
             var newUser = new Clinician({
@@ -25,7 +25,7 @@ async function Register(req, res) {
                 dob,
                 phone
             });
-            var existingUser = await Clinician.findOne({ email })
+            var existingUser = await Clinician.findOne({ "id": id })
         }
 
         console.log(newUser)
@@ -33,7 +33,7 @@ async function Register(req, res) {
         if (existingUser)
             return res.status(400).json({
                 status: "failed",
-                message: "An account with this email address exists already, try to log in instead."
+                message: "An account with this ID exists already, try to log in instead."
             });
 
         const savedUser = await newUser.save();
