@@ -17,6 +17,33 @@ const clinicianSchema = new mongoose.Schema({
         trim: true,
         require: [true, "Password is required"],
     },
+    fullname: {
+        type: String,
+        trim: true,
+        require: [true, "Full name is required"],
+    },
+    dob: {
+        type: Date,
+        require: [true, "Date of birth is required"],
+    },
+    phone: {
+        type: String,
+        trim: true,
+        require: [true, "Phone number is required"],
+    },
+    age: {
+        type: Number,
+        min: 0,
+        max: 170,
+    },
+    sex: {
+        type: String,
+        enum: ["male", "female"],
+    },
+    race: {
+        type: String,
+        enum: ["asian", "black", "mixed", "white", "other"],
+    },
     patients: {
         type: [String],
     },
