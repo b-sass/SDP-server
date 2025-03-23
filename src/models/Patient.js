@@ -29,14 +29,6 @@ const PatientSchema = new mongoose.Schema({
         unique: true,
         require: [true, "NHS Number is required for all patients"],
     },
-    email: {
-        type: String,
-        maxLength: 40,
-        trim: true,
-        unique: true,
-        lowercase: true,
-        require: [true, "Email is required"],
-    },
     password: {
         type: String,
         minLength: 8,

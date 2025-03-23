@@ -4,13 +4,12 @@ import { createToken } from "../middleware/token.js";
 import bcrypt from "bcrypt";
 
 async function Register(req, res) {
-    const { type, id, email, password, fullname, dob, phone } = req.body;
+    const { type, id, password, fullname, dob, phone } = req.body;
     console.log(`My ID is: ${id}`);
     try {
         if (type === "patient") {
             var newUser = new Patient({
                 id,
-                email,
                 password,
                 fullname,
                 dob,
@@ -21,7 +20,6 @@ async function Register(req, res) {
         else if (type === "clinician") {
             var newUser = new Clinician({
                 id,
-                email,
                 password,
                 fullname,
                 dob,
@@ -61,14 +59,13 @@ async function Register(req, res) {
 async function Login(req, res) {
     const password = req.body.password;
     const type = req.params.type; 
+    const id = req.body.id;
 
     try {
         if (type === "patient") {
-            const email = req.body.email;
-            var user = await Patient.findOne({ "email": email });
+            var user = await Patient.findOne({ "id": id });
         }
         if (type === "clinician") {
-            const id = req.body.id;
             var user = await Clinician.findOne({ "id": id });
         }
         if (!user) {

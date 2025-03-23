@@ -12,11 +12,6 @@ router.post(
         .withMessage("Full name is required")
         .trim()
         .escape(),
-    check("email")
-        .isEmail()
-        .withMessage("Valid email is required")
-        .normalizeEmail()
-        .escape(),
     check("password")
         .notEmpty()
         .isLength({ min: 8 })
