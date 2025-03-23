@@ -31,19 +31,6 @@ const clinicianSchema = new mongoose.Schema({
         trim: true,
         require: [true, "Phone number is required"],
     },
-    age: {
-        type: Number,
-        min: 0,
-        max: 170,
-    },
-    sex: {
-        type: String,
-        enum: ["male", "female"],
-    },
-    race: {
-        type: String,
-        enum: ["asian", "black", "mixed", "white", "other"],
-    },
     patients: {
         type: [String],
     },
