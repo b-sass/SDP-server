@@ -1,6 +1,32 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+const AnswerSchema = new mongoose.Schema({
+    "2-Age": {
+        type: String,
+        required: true
+    },
+    "3-Gender": {
+        type: String,
+        required: true
+    },
+    "4-SerumCreatinine": {
+        type: String,
+        required: true
+    },
+    "4-SC-Unit": {
+        type: String,
+        required: true
+    },
+    "5-Race": String,  // Optional for first format
+    "6-Race": String,  // Optional for second format
+    "7-Height": String, // Optional
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
+});
+
 const ResultSchema = new mongoose.Schema({
     creatine: {
         type: Number,
@@ -34,7 +60,7 @@ const PatientSchema = new mongoose.Schema({
         minLength: 8,
         maxLength: 40,
         trim: true,
-        require: [true, "Password is required"],
+        requ: [true, "Password is required"],
     },
     fullname: {
         type: String,
@@ -65,6 +91,9 @@ const PatientSchema = new mongoose.Schema({
     },
     results: {
         type: [ResultSchema],
+    },
+    answers: {
+        type: [AnswerSchema],
     },
     clinitian: {
         type: String,
