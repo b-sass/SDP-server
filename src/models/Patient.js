@@ -60,7 +60,7 @@ const PatientSchema = new mongoose.Schema({
         minLength: 8,
         maxLength: 40,
         trim: true,
-        requ: [true, "Password is required"],
+        require: [true, "Password is required"],
     },
     fullname: {
         type: String,
