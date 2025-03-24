@@ -4,7 +4,7 @@ import { createToken } from "../middleware/token.js";
 import bcrypt from "bcrypt";
 
 async function Register(req, res) {
-    const { type, id, password, fullname, dob, phone } = req.body;
+    const { type, id, password, fullname, dob, phone, age, sex, race } = req.body;
     console.log(`My ID is: ${id}`);
     try {
         if (type === "patient") {
@@ -13,7 +13,10 @@ async function Register(req, res) {
                 password,
                 fullname,
                 dob,
-                phone
+                phone,
+                age,
+                sex,
+                race
             });
             var existingUser = await Patient.findOne({ "id": id })
         }
@@ -23,7 +26,10 @@ async function Register(req, res) {
                 password,
                 fullname,
                 dob,
-                phone
+                phone,
+                age,
+                sex,
+                race
             });
             var existingUser = await Clinician.findOne({ "id": id })
         }
