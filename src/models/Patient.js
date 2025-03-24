@@ -18,9 +18,9 @@ const AnswerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    "5-Race": String,  // Optional for first format
-    "6-Race": String,  // Optional for second format
-    "7-Height": String, // Optional
+    "5-Race": String,
+    "6-Race": String,
+    "7-Height": String,
     timestamp: {
         type: Date,
         default: Date.now
