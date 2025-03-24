@@ -54,4 +54,4 @@ clinicianSchema.pre("save", function (next) {
     });
 });
 
-export default mongoose.model("clinician", clinicianSchema);
+export default mongoose.model("clinicians", clinicianSchema);

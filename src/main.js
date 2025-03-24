@@ -32,5 +32,5 @@ app.use("/", calculateRouter)
 Router(app)
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`SDP Server listening on port ${port}`)
 })
