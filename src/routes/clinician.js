@@ -7,21 +7,55 @@ const router = Router();
 router.get("/clinician/:id",
     VerifyToken,
     async (req, res) => {
-        let clinician = await getClinician(req.id);
+        let clinician = await getClinician(req.params.id);
         res.json(clinician).status(200);
 });
 
-// router.get("/clinician/:id/patients",
-//     VerifyToken,
-//     async (req,res) => {
-//         let clinician = await getClinician(req.id);
-//         let patients = [];
-//         clinician.patients.forEach(patient => {
-//             patients.push(await Patient.findOne({"id": patient}))
-//         });
-//         res.json(patients).status(200);
-//     }
-// )
+router.get("/clinician/:id/patients",
+    VerifyToken,
+    async (req,res) => {
+        let clinician = await getClinician(req.id);
+        res.json(clinician.patients).status(200);
+    }
+)
+
+router.post("/clinician/:id/patients",
+    VerifyToken,
+    async (req,res) => {
+        try {
+            const { id } = req.body;
+            const clinicianID = req.id;
+
+            let clinician = await Clinician.findOne({"id": clinicianID});
+            let patient = await Patient.findOne({"id": id});
+
+            if (clinician.patients.includes(patient.id)) {
+                res.status(401).json({
+                    status: "error",
+                    message: "Patient already assigned to this clinician.",
+                })
+            }
+
+            clinician.patients.push(patient.id);
+            
+            await Clinician.updateOne(
+                { "id": clinicianID },
+                { $set: { "patients": clinician.patients } },
+            )
+            
+            res.json({
+                status: "success",
+                message: `Patient ${patient.id} added to clinician ${clinician.fullname}.`
+            }).status(200);
+        } catch (err) {
+            res.json({
+                status: "error",
+                message: "Internal Server Error",
+                error: [err]
+            }).status(500);
+        }
+    }
+)
 
 let getClinician = async (num) => {
     let clinician = await Clinician.findOne({"id": num});
@@ -36,5 +70,6 @@ let getClinician = async (num) => {
 //     });
 //     return patients;
 // }
+
 
 export default router;

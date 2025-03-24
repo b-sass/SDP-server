@@ -71,7 +71,8 @@ router.post("/patient/:id/results",
     async (req,res) => {
         const { creat, calcType, result } = req.body;
         try {
-            let patient = await getPatient(req.params.id);
+            let patient = await getPatient(req.id);
+
             patient.results.push({
                 "creatine": creat,
                 "calculationType": calcType,
