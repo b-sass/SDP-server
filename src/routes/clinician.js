@@ -4,10 +4,10 @@ import { VerifyToken } from "../middleware/token.js";
 import Patient from "../models/Patient.js";
 const router = Router();
 
-router.get("/clinician/:id",
+router.get("/clinician",
     VerifyToken,
     async (req, res) => {
-        let clinician = await getClinician(req.params.id);
+        let clinician = await getClinician(req.id);
         res.json(clinician).status(200);
 });
 
