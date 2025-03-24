@@ -14,12 +14,8 @@ router.get("/clinician/:id",
 router.get("/clinician/:id/patients",
     VerifyToken,
     async (req,res) => {
-        let clinician = await getClinician(req.params.id);
-        let patients = [];
-        clinician.patients.forEach(patientID => {
-            patients.push(Patient.findOne({"id": patientID}))
-        });
-        res.json(patients).status(200);
+        let clinician = await getClinician(req.id);
+        res.json(clinician.patients).status(200);
     }
 )
 
