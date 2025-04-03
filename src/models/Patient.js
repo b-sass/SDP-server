@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const AnswerSchema = new mongoose.Schema({
+    resultId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Result",
+        required: true,
+    },
     "2-Age": {
         type: String,
         required: true
@@ -42,7 +47,7 @@ const ResultSchema = new mongoose.Schema({
         type: Number,
         min: 0,
         required: [true, "Calculation result required (eGFR)"]
-    },
+    }
 });
 
 const PatientSchema = new mongoose.Schema({
@@ -53,28 +58,28 @@ const PatientSchema = new mongoose.Schema({
         trim: true,
         uppercase: true,
         unique: true,
-        require: [true, "NHS Number is required for all patients"],
+        required: [true, "NHS Number is required for all patients"],
     },
     password: {
         type: String,
         minLength: 8,
         maxLength: 40,
         trim: true,
-        require: [true, "Password is required"],
+        required: [true, "Password is required"],
     },
     fullname: {
         type: String,
         trim: true,
-        require: [true, "Full name is required"],
+        required: [true, "Full name is required"],
     },
     dob: {
         type: Date,
-        require: [true, "Date of birth is required"],
+        required: [true, "Date of birth is required"],
     },
     phone: {
         type: String,
         trim: true,
-        require: [true, "Phone number is required"],
+        required: [true, "Phone number is required"],
     },
     age: {
         type: Number,
@@ -89,13 +94,9 @@ const PatientSchema = new mongoose.Schema({
         type: String,
         enum: ["asian", "black", "mixed", "white", "other"],
     },
-    results: {
-        type: [ResultSchema],
-    },
-    answers: {
-        type: [AnswerSchema],
-    },
-    clinitian: {
+    results: [{ type: mongoose.Schema.Types.ObjectId, ref: "Result" }],
+    answers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
+    clinician: {
         type: String,
     }
 });
@@ -118,4 +119,6 @@ PatientSchema.pre("save", function (next) {
     });
 });
 
+mongoose.model("Result", ResultSchema);
+mongoose.model("Answer", AnswerSchema);
 export default mongoose.model("patients", PatientSchema);
