@@ -16,6 +16,8 @@ router.post("/patient/:id/answers",
                 });
             }
 
+            const existingResultIds = patient.results.map(r => r.resultId || 1);
+
             // * Validate required fields
             const requiredFields = ["2-Age", "3-Gender", "4-SerumCreatinine", "4-SC-Unit"];
             for (const field of requiredFields) {
@@ -29,6 +31,7 @@ router.post("/patient/:id/answers",
 
             // * Add timestamp automatically
             const answer = {
+                resultId: existingResultIds,
                 ...req.body,
                 timestamp: new Date()
             };
@@ -73,10 +76,15 @@ router.post("/patient/:id/results",
         try {
             let patient = await getPatient(req.id);
 
+            const existingResultIds = patient.results.map(r => r.resultId || 0);
+            const maxResultId = existingResultIds.length > 0 ? Math.max(...existingResultIds) : 1;
+            const newResultId = maxResultId + 1;
+
             patient.results.push({
-                "creatine": creat,
-                "calculationType": calcType,
-                "eGFR": result
+                resultId: newResultId,
+                creatine: creat,
+                calculationType: calcType,
+                eGFR: result
             });
         
             await Patient.updateOne(
