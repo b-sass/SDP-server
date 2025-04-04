@@ -81,10 +81,10 @@ router.post("/patient/:id/results",
             const newResultId = maxResultId + 1;
 
             patient.results.push({
-                resultId: newResultId,
-                creatine: creat,
-                calculationType: calcType,
-                eGFR: result
+                "resultId": newResultId,
+                "creatine": creat,
+                "calculationType": calcType,
+                "eGFR": result
             });
         
             await Patient.updateOne(
