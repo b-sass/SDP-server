@@ -16,6 +16,8 @@ router.post("/patient/:id/answers",
                 });
             }
 
+            const existingResultIds = patient.results.map(r => r.resultId || 1);
+
             // * Validate required fields
             const requiredFields = ["2-Age", "3-Gender", "4-SerumCreatinine", "4-SC-Unit"];
             for (const field of requiredFields) {
@@ -29,6 +31,7 @@ router.post("/patient/:id/answers",
 
             // * Add timestamp automatically
             const answer = {
+                resultId: existingResultIds,
                 ...req.body,
                 timestamp: new Date()
             };
@@ -45,10 +48,10 @@ router.post("/patient/:id/answers",
                 { $set: { "answers": patient.answers } }
             );
 
-            res.json({
+            res.status(200).json({
                 status: "success",
                 message: `Answers added for patient ${patient.fullname}`
-            }).status(200);
+            });
         } catch (err) {
             res.status(500).json({
                 status: "error",
@@ -63,7 +66,7 @@ router.get("/patient",
     VerifyToken,
     async (req, res) => {
         let patient = await getPatient(req.id);
-        res.json(patient).status(200);
+        res.status(200).json(patient);
 });
 
 router.post("/patient/:id/results",
@@ -73,7 +76,12 @@ router.post("/patient/:id/results",
         try {
             let patient = await getPatient(req.id);
 
+            const existingResultIds = patient.results.map(r => r.resultId || 0);
+            const maxResultId = existingResultIds.length > 0 ? Math.max(...existingResultIds) : 1;
+            const newResultId = maxResultId + 1;
+
             patient.results.push({
+                "resultId": newResultId,
                 "creatine": creat,
                 "calculationType": calcType,
                 "eGFR": result
@@ -83,16 +91,16 @@ router.post("/patient/:id/results",
                 { "id": patient.id },
                 { $set: { "results": patient.results } },
             )
-            res.json({
+            res.status(200).json({
                 status: "success",
                 message: `Results updated for patient ${patient.fullname}.`
-            }).status(200);
+            });
         } catch (err) {
-            res.json({
+            res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
                 error: [err]
-            }).status(500);
+            });
         }
     }
 )
