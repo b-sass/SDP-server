@@ -1,4 +1,6 @@
 import express from "express";
+import { VerifyToken } from "../middleware/token.js";
+import { Setup } from "../controller/mfa.js";
 import { Register, Login } from "../controller/auth.js";
 import Validate from "../middleware/validate.js";
 import { check, body } from "express-validator";
@@ -47,5 +49,11 @@ router.post(
     "/login/:type",
     Login
 );
+
+router.post(
+    "/mfa",
+    VerifyToken,
+    Setup
+)
 
 export default router;
