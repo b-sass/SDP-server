@@ -29,7 +29,7 @@ const Setup2FA = async (req, res) => {
 
         // check if user has mfa enabled
         console.log(`user: ${user}`);
-        if (user.mfa || user.mfa?.verified) {
+        if (user.mfa?.verified) {
             console.log("User already has MFA enabled");
             return res.status(422).json({ message: "MFA already enabled" });
         }
