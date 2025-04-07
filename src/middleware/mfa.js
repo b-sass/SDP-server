@@ -85,7 +85,6 @@ function confirm(
     period = 30
 ) {
     const currentToken = generateTOTP(secret, algorithm, digits, period);
-    console.log(`"MFA" secret: ${secret}`);
     console.log(`"MFA" userToken: ${userToken}`);
     // If userToken matches the currentToken, return true
     if (userToken === currentToken) return true;
