@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+const mfa = new mongoose.Schema({
+    secret: {
+        type: String,
+        default: "",
+    },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+});
+
 const AnswerSchema = new mongoose.Schema({
     resultId: {
         type: Number,
@@ -68,7 +79,7 @@ const PatientSchema = new mongoose.Schema({
     password: {
         type: String,
         minLength: 8,
-        maxLength: 40,
+        maxLength: 60,
         trim: true,
         require: [true, "Password is required"],
     },
@@ -107,6 +118,9 @@ const PatientSchema = new mongoose.Schema({
     },
     clinitian: {
         type: String,
+    },
+    mfa: {
+        type: mfa
     }
 });
 

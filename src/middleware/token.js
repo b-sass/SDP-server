@@ -29,6 +29,7 @@ const VerifyToken = (req, res, next) => {
             return res.status(422).json({ err })
         }
         req.id = user.id;
+        req.type = user.type;
         next();
     });
 };

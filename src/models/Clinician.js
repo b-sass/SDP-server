@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+const mfa = new mongoose.Schema({
+    secret: {
+        type: String,
+        default: "",
+    },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+});
+
 const clinicianSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -13,7 +24,7 @@ const clinicianSchema = new mongoose.Schema({
     password: {
         type: String,
         minLength: 8,
-        maxLength: 40,
+        maxLength: 60,
         trim: true,
         require: [true, "Password is required"],
     },
@@ -34,6 +45,9 @@ const clinicianSchema = new mongoose.Schema({
     patients: {
         type: [String],
     },
+    mfa: {
+        type: mfa,
+    }
 });
 
 // Duplicated code

@@ -89,6 +89,14 @@ async function Login(req, res) {
                 message: "Incorrect password"
             });
         }
+
+        if (user.mfa?.verified) {
+            return res.status(303).json({
+                status: "see other",
+                message: "2FA Enabled for this account | see GET /auth/mfa/:type"
+            });
+        }
+
         res.status(200).json({
             status: "success",
             userToken: createToken(user.id),
