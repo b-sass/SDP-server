@@ -1,6 +1,6 @@
 import express from "express";
 import { VerifyToken } from "../middleware/token.js";
-import { Setup } from "../controller/mfa.js";
+import { Setup2FA, Verify2FA } from "../controller/mfa.js";
 import { Register, Login } from "../controller/auth.js";
 import Validate from "../middleware/validate.js";
 import { check, body } from "express-validator";
@@ -50,10 +50,15 @@ router.post(
     Login
 );
 
+router.get(
+    "/mfa/:type",
+    Verify2FA
+)
+
 router.post(
     "/mfa",
     VerifyToken,
-    Setup
+    Setup2FA
 )
 
 export default router;
