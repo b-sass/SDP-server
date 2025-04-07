@@ -85,9 +85,11 @@ function confirm(
     period = 30
 ) {
     const currentToken = generateTOTP(secret, algorithm, digits, period);
-  
+    console.log(`"MFA" secret: ${secret}`);
+    console.log(`"MFA" userToken: ${userToken}`);
     // If userToken matches the currentToken, return true
     if (userToken === currentToken) return true;
+    console.log(`userToken: ${userToken}, currentToken: ${currentToken}`);
   
     // If a tolerance is set (for clock drift or slight time mismatches),
     // generate tokens for the previous and next intervals.
@@ -125,7 +127,7 @@ function generateTOTPForTimeOffset (
     const hexCounter = leftPad(timeCounter.toString(16), 16, "0");
   
     const decodedSecret = Buffer.from(base32ToHex(secret), "hex");
-    const hmac = createHmac(algorithm, decodedSecret)
+    const hmac = crypto.createHmac(algorithm, decodedSecret)
       .update(Buffer.from(hexCounter, "hex"))
       .digest();
   
@@ -186,6 +188,6 @@ let generateKey = () => {
 // console.log(`Key: ${key}`)
 // const key32 = hexToBase32(key)
 // console.log(`Key32: ${key32}`)
-// console.log(generateTOTP("GIYWEZRVHE2TINJVMVSWGMTEGU2WENLDME2DMMDBGEYGMNBQGQZWCODDGRSDOMLF"))
+console.log(generateTOTP("MIYTCNZRHA4GENZSGI3DCYRRHA2TOMZXGQ2TIOBVMZQTAZTEGRRGMYRYMU2WMMBW"))
 
 export { confirm, generateTOTP, generateKey, hexToBase32 };
