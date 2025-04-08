@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import * as mfa from "../middleware/mfa.js";
 import Clinician from "../models/Clinician.js";
 import Patient from "../models/Patient.js";
