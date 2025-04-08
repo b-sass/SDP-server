@@ -52,13 +52,14 @@ router.post(
 
 router.get(
     "/mfa",
-    Verify2FA
+    VerifyToken,
+    Setup2FA
 )
 
 router.post(
     "/mfa",
-    VerifyToken,
-    Setup2FA
+    Verify2FA
 )
+
 
 export default router;

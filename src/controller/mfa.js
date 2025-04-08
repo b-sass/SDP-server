@@ -90,8 +90,12 @@ const Verify2FA = async (req, res) => {
                     return res.status(401).json({ message: "Missing MFA code." })
                 }
 
+                if(user.mfa?.verified) {
+                    return res.status(422).json({ message: "MFA already verified" });
+                }
+
                 // Proceed to validate MFA
-                validateMFA(user, code, res);
+                validateMFA(user, code, res, token);
             });
         } else {
             // Ensure both `id` and `password` are provided
@@ -133,7 +137,7 @@ const Verify2FA = async (req, res) => {
  * @param {string} code - The MFA code to validate.
  * @param {Response} res - The response object.
  */
-const validateMFA = async (user, code, res) => {
+const validateMFA = async (user, code, res, token = null) => {
     if (!user.mfa) {
         return res.status(422).json({ message: "MFA not enabled" });
     }
