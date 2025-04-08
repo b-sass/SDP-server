@@ -86,6 +86,10 @@ const Verify2FA = async (req, res) => {
                     return res.status(404).json({ message: "User not found" });
                 }
 
+                if (!code) {
+                    return res.status(401).json({ message: "Missing MFA code." })
+                }
+
                 // Proceed to validate MFA
                 validateMFA(user, code, res);
             });
