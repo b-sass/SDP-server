@@ -51,7 +51,7 @@ router.post(
 );
 
 router.get(
-    "/mfa/:type",
+    "/mfa",
     Verify2FA
 )
 
