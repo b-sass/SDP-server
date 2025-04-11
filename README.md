@@ -19,7 +19,7 @@ Follow these steps to set up the project locally:
 
 ```bash
 # Clone the repository
-git clone https://github.com/JayNightmare/SDP-server.git
+git clone https://github.com/[b-sass or JayNightmare]/SDP-server.git
 
 # Navigate into the project directory
 cd SDP-server
