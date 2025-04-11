@@ -1,6 +1,22 @@
-# SDP Server
-
+<h1 align=center>
+   SDP Server
+</h1> 
 A JavaScript-based server application designed to [describe the purpose of the project briefly].
+
+---
+
+<p align=center>
+   Website Repo: https://github.com/JayNightmare/SDP-Website
+</p>
+
+---
+
+## Equation
+Adult Equation:
+eGFR = $186 \cdot (Creat / 88.4)^{-1.154} \cdot (Age)^{-0.203} \cdot (0.742 \text{ if female}) \cdot (1.210 \text{ if black})$
+
+Child Equation:
+eGFR = $\frac{\text{Height} \cdot k}{\text{Creat} / 88.4}$
 
 ## Features
 
@@ -48,16 +64,6 @@ Explain how to configure the server, e.g., environment variables:
 
 - `PORT`: The port the server will listen to (default: `3000`).
 - `DATABASE_URL`: Your database connection string.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -m 'Add feature'`).
-4. Push to the branch (`git push origin feature-name`).
-5. Create a pull request.
 
 ## License
 
