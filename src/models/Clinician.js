@@ -59,6 +59,10 @@ const clinicianSchema = new mongoose.Schema({
                     type: Date,
                     required: [true, "Appointment date is required"],
                 },
+                time: {
+                    type: String,
+                    required: [true, "Appointment time is required"],
+                },
                 notes: {
                     type: String,
                     trim: true,
