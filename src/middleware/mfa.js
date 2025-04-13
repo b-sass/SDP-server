@@ -108,7 +108,7 @@ function confirm(
 /**
  * 
  * @param {string} secret 
- * @param {string} offset
+ * @param {number} offset
  * @param {string} algorithm
  * @param {number} digits
  * @param {number} period
