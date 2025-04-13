@@ -2,20 +2,21 @@ import { Router } from "express";
 import Clinician from "../models/Clinician.js";
 import { VerifyToken } from "../middleware/token.js";
 import Patient from "../models/Patient.js";
+import mongoose from "mongoose";
 const router = Router();
 
 router.get("/clinician",
     VerifyToken,
     async (req, res) => {
         let clinician = await getClinician(req.id);
-        res.json(clinician).status(200);
+        res.status(200).json(clinician);
 });
 
 router.get("/clinician/:id/patients",
     VerifyToken,
     async (req,res) => {
         let clinician = await getClinician(req.id);
-        res.json(clinician.patients).status(200);
+        res.status(200).json(clinician.patients);
     }
 )
 
@@ -43,16 +44,16 @@ router.post("/clinician/:id/patients",
                 { $set: { "patients": clinician.patients } },
             )
             
-            res.json({
+            res.status(200).json({
                 status: "success",
                 message: `Patient ${patient.id} added to clinician ${clinician.fullname}.`
-            }).status(200);
+            });
         } catch (err) {
-            res.json({
+            res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
                 error: [err]
-            }).status(500);
+            });
         }
     }
 )
@@ -73,10 +74,10 @@ router.get("/clinician/:id/patients/details",
 
             let patients = await getPatients(clinician.patients);
 
-            res.json({
+            res.status(200).json({
                 status: "success",
                 patients: patients,
-            }).status(200);
+            });
         } catch (err) {
             res.status(500).json({
                 status: "error",
@@ -100,14 +101,19 @@ router.post("/clinician/:id/appointments",
             if (!clinician || !patient) {
                 return res.status(404).json({
                     status: "error",
-                    message: "Clinician or patient not found.",
+                    message: "Clinician or patient not found."
                 });
             }
 
+            // Generate a unique appointment ID
+            const existingAppointmentIDs = patient.appointments?.map(r => r.appointmentID || 0) || [];
+            const maxAppointmentID = existingAppointmentIDs.length > 0 ? Math.max(...existingAppointmentIDs) : 1;
+
             const appointment = {
+                appointmentID: maxAppointmentID + 1,
                 date: appointmentDetails.date,
                 time: appointmentDetails.time,
-                notes: appointmentDetails.notes,
+                notes: appointmentDetails.notes
             };
 
             // Add appointment to clinician
@@ -116,7 +122,13 @@ router.post("/clinician/:id/appointments",
 
             // Add appointment to patient
             if (!patient.appointments) patient.appointments = [];
-            patient.appointments.push({ clinicianID, ...appointment });
+            patient.appointments.push({
+                appointmentID: maxAppointmentID,
+                date: appointmentDetails.date,
+                time: appointmentDetails.time,
+                clinician: clinician.fullname,
+                notes: appointmentDetails.notes
+            });
 
             await Clinician.updateOne(
                 { "id": clinicianID },
@@ -128,15 +140,15 @@ router.post("/clinician/:id/appointments",
                 { $set: { "appointments": patient.appointments } }
             );
 
-            res.json({
+            return res.status(200).json({
                 status: "success",
-                message: "Appointment successfully added.",
-            }).status(200);
+                message: "Appointment successfully added."
+            });
         } catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
-                error: [err],
+                error: [err]
             });
         }
     }
