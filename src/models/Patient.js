@@ -66,6 +66,30 @@ const ResultSchema = new mongoose.Schema({
     }
 });
 
+const AppointmentSchema = new mongoose.Schema({
+    appointmentId: {
+        type: String,
+        unique: true,
+        required: [true, "Appointment ID is required"],
+    },
+    date: {
+        type: Date,
+        required: [true, "Appointment date is required"],
+    },
+    time: {
+        type: String,
+        required: [true, "Appointment time is required"],
+    },
+    clinician: {
+        type: String,
+        required: [true, "Clinician name is required"],
+    },
+    notes: {
+        type: String,
+        trim: true,
+    },
+});
+
 const PatientSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -121,7 +145,10 @@ const PatientSchema = new mongoose.Schema({
     },
     mfa: {
         type: mfa
-    }
+    },
+    appointments: {
+        type: [AppointmentSchema],
+    },
 });
 
 // Duplicated code
