@@ -91,11 +91,11 @@ router.post("/clinician/:id/appointments",
     VerifyToken,
     async (req, res) => {
         try {
-            const clinicianID = req.id;
-            const { patientID, appointmentDetails } = req.body;
+            const clinicianId = req.id;
+            const { patientId, appointmentDetails } = req.body;
 
-            let clinician = await Clinician.findOne({ "id": clinicianID });
-            let patient = await Patient.findOne({ "id": patientID });
+            let clinician = await Clinician.findOne({ "id": clinicianId });
+            let patient = await Patient.findOne({ "id": patientId });
 
             if (!clinician || !patient) {
                 return res.status(404).json({
@@ -112,19 +112,19 @@ router.post("/clinician/:id/appointments",
 
             // Add appointment to clinician
             if (!clinician.appointments) clinician.appointments = [];
-            clinician.appointments.push({ patientID, ...appointment });
+            clinician.appointments.push({ patientId, ...appointment });
 
             // Add appointment to patient
             if (!patient.appointments) patient.appointments = [];
-            patient.appointments.push({ clinicianID, ...appointment });
+            patient.appointments.push({ clinicianId, ...appointment });
 
             await Clinician.updateOne(
-                { "id": clinicianID },
+                { "id": clinicianId },
                 { $set: { "appointments": clinician.appointments } }
             );
 
             await Patient.updateOne(
-                { "id": patientID },
+                { "id": patientId },
                 { $set: { "appointments": patient.appointments } }
             );
 
