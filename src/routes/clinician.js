@@ -87,6 +87,61 @@ router.get("/clinician/:id/patients/details",
     }
 );
 
+router.post("/clinician/:id/appointments",
+    VerifyToken,
+    async (req, res) => {
+        try {
+            const clinicianID = req.id;
+            const { patientID, appointmentDetails } = req.body;
+
+            let clinician = await Clinician.findOne({ "id": clinicianID });
+            let patient = await Patient.findOne({ "id": patientID });
+
+            if (!clinician || !patient) {
+                return res.status(404).json({
+                    status: "error",
+                    message: "Clinician or patient not found.",
+                });
+            }
+
+            const appointment = {
+                date: appointmentDetails.date,
+                time: appointmentDetails.time,
+                notes: appointmentDetails.notes,
+            };
+
+            // Add appointment to clinician
+            if (!clinician.appointments) clinician.appointments = [];
+            clinician.appointments.push({ patientID, ...appointment });
+
+            // Add appointment to patient
+            if (!patient.appointments) patient.appointments = [];
+            patient.appointments.push({ clinicianID, ...appointment });
+
+            await Clinician.updateOne(
+                { "id": clinicianID },
+                { $set: { "appointments": clinician.appointments } }
+            );
+
+            await Patient.updateOne(
+                { "id": patientID },
+                { $set: { "appointments": patient.appointments } }
+            );
+
+            res.json({
+                status: "success",
+                message: "Appointment successfully added.",
+            }).status(200);
+        } catch (err) {
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error",
+                error: [err],
+            });
+        }
+    }
+);
+
 let getClinician = async (num) => {
     let clinician = await Clinician.findOne({"id": num});
     return clinician;
