@@ -47,7 +47,30 @@ const clinicianSchema = new mongoose.Schema({
     },
     mfa: {
         type: mfa,
-    }
+    },
+    appointments: {
+        type: [
+            {
+                patientId: {
+                    type: String,
+                    required: [true, "Patient ID is required for an appointment"],
+                },
+                date: {
+                    type: Date,
+                    required: [true, "Appointment date is required"],
+                },
+                time: {
+                    type: String,
+                    required: [true, "Appointment time is required"],
+                },
+                notes: {
+                    type: String,
+                    trim: true,
+                },
+            },
+        ],
+        default: [],
+    },
 });
 
 // Duplicated code

@@ -47,7 +47,7 @@ function hexToBase32(hex) {
 
     // Convert each hex character to its binary representation
     for (let i = 0; i < hex.length; i++) {
-        const binary = hex.charCodeAt(i).toString(2).padStart(8, "0");
+        const binary = parseInt(hex[i], 16).toString(2).padStart(4, "0");
         bits += binary;
     }
 
@@ -58,7 +58,6 @@ function hexToBase32(hex) {
         base32 += base32chars[index] || "";
     }
 
-    // Add padding if necessary
     while (base32.length % 8 !== 0) {
         base32 += "=";
     }
@@ -109,7 +108,7 @@ function confirm(
 /**
  * 
  * @param {string} secret 
- * @param {string} offset
+ * @param {number} offset
  * @param {string} algorithm
  * @param {number} digits
  * @param {number} period

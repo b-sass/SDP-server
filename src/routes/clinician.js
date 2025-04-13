@@ -57,10 +57,45 @@ router.post("/clinician/:id/patients",
     }
 )
 
+router.get("/clinician/:id/patients/details",
+    VerifyToken,
+    async (req, res) => {
+        try {
+            const clinicianID = req.id;
+            let clinician = await Clinician.findOne({ "id": clinicianID });
+
+            if (!clinician) {
+                return res.status(404).json({
+                    status: "error",
+                    message: "Clinician not found.",
+                });
+            }
+
+            let patients = await getPatients(clinician.patients);
+
+            res.json({
+                status: "success",
+                patients: patients,
+            }).status(200);
+        } catch (err) {
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error",
+                error: [err],
+            });
+        }
+    }
+);
+
 let getClinician = async (num) => {
     let clinician = await Clinician.findOne({"id": num});
     return clinician;
 }
+
+let getPatients = async (patientIDs) => {
+    let patients = await Patient.find({ "id": { $in: patientIDs } });
+    return patients;
+};
 
 // let getPatients = async (patientIDs) => {
 //     let patients = [];
