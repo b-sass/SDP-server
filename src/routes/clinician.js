@@ -2,7 +2,6 @@ import { Router } from "express";
 import Clinician from "../models/Clinician.js";
 import { VerifyToken } from "../middleware/token.js";
 import Patient from "../models/Patient.js";
-import mongoose from "mongoose";
 const router = Router();
 
 router.get("/clinician",
@@ -107,7 +106,7 @@ router.post("/clinician/:id/appointments",
 
             // Generate a unique appointment ID
             const existingAppointmentIDs = patient.appointments?.map(r => r.appointmentID || 0) || [];
-            const maxAppointmentID = existingAppointmentIDs.length > 0 ? Math.max(...existingAppointmentIDs) : 1;
+            const maxAppointmentID = existingAppointmentIDs.length > 0 ? Math.max(...existingAppointmentIDs) : 0;
 
             const appointment = {
                 appointmentID: maxAppointmentID + 1,
@@ -123,7 +122,7 @@ router.post("/clinician/:id/appointments",
             // Add appointment to patient
             if (!patient.appointments) patient.appointments = [];
             patient.appointments.push({
-                appointmentID: maxAppointmentID,
+                appointmentID: maxAppointmentID + 1,
                 date: appointmentDetails.date,
                 time: appointmentDetails.time,
                 clinician: clinician.fullname,
