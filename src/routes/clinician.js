@@ -9,14 +9,14 @@ router.get("/clinician",
     VerifyToken,
     async (req, res) => {
         let clinician = await getClinician(req.id);
-        res.json(clinician).status(200);
+        res.status(200).json(clinician);
 });
 
 router.get("/clinician/:id/patients",
     VerifyToken,
     async (req,res) => {
         let clinician = await getClinician(req.id);
-        res.json(clinician.patients).status(200);
+        res.status(200).json(clinician.patients);
     }
 )
 
@@ -44,16 +44,16 @@ router.post("/clinician/:id/patients",
                 { $set: { "patients": clinician.patients } },
             )
             
-            res.json({
+            res.status(200).json({
                 status: "success",
                 message: `Patient ${patient.id} added to clinician ${clinician.fullname}.`
-            }).status(200);
+            });
         } catch (err) {
-            res.json({
+            res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
                 error: [err]
-            }).status(500);
+            });
         }
     }
 )
@@ -74,10 +74,10 @@ router.get("/clinician/:id/patients/details",
 
             let patients = await getPatients(clinician.patients);
 
-            res.json({
+            res.status(200).json({
                 status: "success",
                 patients: patients,
-            }).status(200);
+            });
         } catch (err) {
             res.status(500).json({
                 status: "error",
@@ -110,7 +110,7 @@ router.post("/clinician/:id/appointments",
             const maxAppointmentID = existingAppointmentIDs.length > 0 ? Math.max(...existingAppointmentIDs) : 1;
 
             const appointment = {
-                appointmentID: maxAppointmentID,
+                appointmentID: maxAppointmentID + 1,
                 date: appointmentDetails.date,
                 time: appointmentDetails.time,
                 notes: appointmentDetails.notes
