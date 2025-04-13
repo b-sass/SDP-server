@@ -78,10 +78,9 @@ router.post("/patient/:id/results",
 
             const existingResultIds = patient.results.map(r => r.resultId || 0);
             const maxResultId = existingResultIds.length > 0 ? Math.max(...existingResultIds) : 1;
-            const newResultId = maxResultId + 1;
 
             patient.results.push({
-                "resultId": newResultId,
+                "resultId": maxResultId,
                 "creatine": creat,
                 "calculationType": calcType,
                 "eGFR": result

@@ -67,7 +67,7 @@ const ResultSchema = new mongoose.Schema({
 });
 
 const AppointmentSchema = new mongoose.Schema({
-    appointmentId: {
+    appointmentID: {
         type: String,
         unique: true,
         required: [true, "Appointment ID is required"],

@@ -51,7 +51,12 @@ const clinicianSchema = new mongoose.Schema({
     appointments: {
         type: [
             {
-                patientId: {
+                appointmentID: {
+                    type: String,
+                    unique: true,
+                    required: [true, "Appointment ID is required"],
+                },
+                patientID: {
                     type: String,
                     required: [true, "Patient ID is required for an appointment"],
                 },
