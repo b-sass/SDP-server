@@ -294,6 +294,85 @@ router.post("/clinician/:id/appointments",
     }
 );
 
+// * Edit an appointment for a clinician and patient
+router.put('/clinician/:id/appointments',
+    VerifyToken,
+    async (req, res) => {
+        try {
+            const clinicianID = req.id;
+            const { appointmentID, patientID, updatedDetails } = req.body;
+
+            let clinician = await Clinician.findOne({ "id": clinicianID });
+            let patient = await Patient.findOne({ "id": patientID });
+
+            if (!clinician || !patient) {
+                return res.status(404).json({
+                    status: "error",
+                    message: "Clinician or patient not found."
+                });
+            }
+
+            // Find the appointment in the clinician's list
+            const clinicianAppointmentIndex = clinician.appointments.findIndex(
+                (appointment) => appointment.appointmentID === appointmentID && appointment.patientID === patientID
+            );
+
+            if (clinicianAppointmentIndex === -1) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Appointment not found for the clinician."
+                });
+            }
+
+            // Find the appointment in the patient's list
+            const patientAppointmentIndex = patient.appointments.findIndex(
+                (appointment) => appointment.appointmentID === appointmentID
+            );
+
+            if (patientAppointmentIndex === -1) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Appointment not found for the patient."
+                });
+            }
+
+            // Update the appointment details for the clinician
+            clinician.appointments[clinicianAppointmentIndex] = {
+                ...clinician.appointments[clinicianAppointmentIndex],
+                ...updatedDetails
+            };
+
+            // Update the appointment details for the patient
+            patient.appointments[patientAppointmentIndex] = {
+                ...patient.appointments[patientAppointmentIndex],
+                ...updatedDetails
+            };
+
+            await Clinician.updateOne(
+                { "id": clinicianID },
+                { $set: { "appointments": clinician.appointments } }
+            );
+
+            await Patient.updateOne(
+                { "id": patientID },
+                { $set: { "appointments": patient.appointments } }
+            );
+
+            res.status(200).json({
+                status: "success",
+                message: `Appointment ${appointmentID} successfully updated.`
+            });
+        } catch (err) {
+            console.log("ERR:" + err);
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error",
+                error: [err]
+            });
+        }
+    }
+);
+
 // * Remove an appointment for a clinician and patient
 router.delete('/clinician/:id/appointments',
     VerifyToken,
