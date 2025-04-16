@@ -61,6 +61,7 @@ router.post("/patient/:id/answers",
                 message: `Answers added for patient ${patient.fullname}`
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
@@ -97,6 +98,7 @@ router.post("/patient/:id/results",
                 message: `Results updated for patient ${patient.fullname}.`
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
