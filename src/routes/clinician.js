@@ -145,51 +145,6 @@ router.get("/clinician/:id/patients/details",
     }
 );
 
-// * Update patient details for a clinician
-router.post("/clinician/:id/patient/details/",
-    VerifyToken,
-    async (req, res) => {
-        try {
-            const clinicianID = req.id;
-            const { patientID, updatedDetails } = req.body;
-
-            let clinician = await Clinician.findOne({ "id": clinicianID });
-            let patient = await Patient.findOne({ "id": patientID });
-
-            if (!clinician || !patient) {
-                return res.status(404).json({
-                    status: "error",
-                    message: "Clinician or patient not found."
-                });
-            }
-
-            if (!clinician.patients.includes(patientID)) {
-                return res.status(403).json({
-                    status: "error",
-                    message: "Clinician is not assigned to this patient."
-                });
-            }
-
-            // Update patient details
-            await Patient.updateOne(
-                { "id": patientID },
-                { $set: updatedDetails }
-            );
-
-            res.status(200).json({
-                status: "success",
-                message: `Patient ${patientID} details updated successfully.`
-            });
-        } catch (err) {
-            res.status(500).json({
-                status: "error",
-                message: "Internal Server Error",
-                error: [err]
-            });
-        }
-    }
-)
-
 // //
 
 // * Get all appointments for a clinician
