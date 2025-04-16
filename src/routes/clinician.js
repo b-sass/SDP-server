@@ -73,7 +73,7 @@ router.delete("/clinician/:id/patients",
             let clinician = await Clinician.findOne({ "id": clinicianID });
             let patient = await Patient.findOne({ "id": patientID });
 
-            if (!clinician || !patient) {
+            if (!clinician || !patient.id) {
                 return res.status(404).json({
                     status: "error",
                     message: "Clinician or patient not found."
