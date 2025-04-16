@@ -53,6 +53,7 @@ router.post("/clinician/:id/patients",
                 message: `Patient ${patient.id} added to clinician ${clinician.fullname}.`
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
@@ -100,6 +101,7 @@ router.delete("/clinician/:id/patients",
                 message: `Patient ${patientID} removed from clinician ${clinician.fullname}.`
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
@@ -133,6 +135,7 @@ router.get("/clinician/:id/patients/details",
                 patients: patients,
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
@@ -165,6 +168,7 @@ router.get('/clinician/:id/appointments',
                 appointments: appointments
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
@@ -232,6 +236,7 @@ router.post("/clinician/:id/appointments",
                 message: "Appointment successfully added."
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             return res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",
@@ -304,6 +309,7 @@ router.delete('/clinician/:id/appointments',
                 message: `Appointment ${appointmentID} successfully removed.`
             });
         } catch (err) {
+            console.log("ERR:"+ err);
             res.status(500).json({
                 status: "error",
                 message: "Internal Server Error",

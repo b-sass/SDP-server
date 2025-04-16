@@ -52,7 +52,7 @@ const Setup2FA = async (req, res) => {
             return res.status(422).json({ message: "Error saving MFA secret" });
         }
     } catch (err) {
-        console.log(err);
+        console.log("ERR:"+ err);
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
