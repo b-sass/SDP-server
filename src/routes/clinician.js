@@ -336,16 +336,20 @@ router.put('/clinician/:id/appointments',
                 });
             }
 
-            // Update the appointment details for the clinician
+            // Update the appointment details for the clinician while keeping the same appointmentID and clinicianID
             clinician.appointments[clinicianAppointmentIndex] = {
                 ...clinician.appointments[clinicianAppointmentIndex],
-                ...updatedDetails
+                ...updatedDetails,
+                appointmentID: appointmentID,
+                patientID: patientID
             };
 
-            // Update the appointment details for the patient
+            // Update the appointment details for the patient while keeping the same appointmentID and clinicianID
             patient.appointments[patientAppointmentIndex] = {
                 ...patient.appointments[patientAppointmentIndex],
-                ...updatedDetails
+                ...updatedDetails,
+                appointmentID: appointmentID,
+                clinician: clinician.fullname
             };
 
             await Clinician.updateOne(
