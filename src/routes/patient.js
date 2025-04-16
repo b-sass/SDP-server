@@ -3,6 +3,14 @@ import Patient from "../models/Patient.js";
 import { VerifyToken } from "../middleware/token.js";
 const router = Router();
 
+// * Get patient details
+router.get("/patient",
+    VerifyToken,
+    async (req, res) => {
+        let patient = await getPatient(req.id);
+        res.status(200).json(patient);
+});
+
 // * Add new answers for a patient
 router.post("/patient/:id/answers",
     VerifyToken,
@@ -62,13 +70,7 @@ router.post("/patient/:id/answers",
     }
 );
 
-router.get("/patient",
-    VerifyToken,
-    async (req, res) => {
-        let patient = await getPatient(req.id);
-        res.status(200).json(patient);
-});
-
+// * Add new results for a patient
 router.post("/patient/:id/results",
     VerifyToken,
     async (req,res) => {
