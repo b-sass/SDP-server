@@ -54,7 +54,7 @@ const ResultSchema = new mongoose.Schema({
     },
     calculationType: {
         type: String,
-        enum: ["mg", "umol"],
+        enum: ["mg", "umol", "mg/dL", "µmol/L"],
         required: [true, "Calculation type required"],
     },
     eGFR: {
