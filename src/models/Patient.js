@@ -15,7 +15,6 @@ const mfa = new mongoose.Schema({
 const AnswerSchema = new mongoose.Schema({
     resultId: {
         type: Number,
-        unique: true,
         required: true,
     },
     "2-Age": {
@@ -46,7 +45,6 @@ const AnswerSchema = new mongoose.Schema({
 const ResultSchema = new mongoose.Schema({
     resultId: {
         type: Number,
-        unique: true,
         required: true,
     },
     creatine: {
@@ -56,7 +54,7 @@ const ResultSchema = new mongoose.Schema({
     },
     calculationType: {
         type: String,
-        enum: ["mg", "umol"],
+        enum: ["mg", "umol", "mg/dL", "µmol/L"],
         required: [true, "Calculation type required"],
     },
     eGFR: {
@@ -69,7 +67,6 @@ const ResultSchema = new mongoose.Schema({
 const AppointmentSchema = new mongoose.Schema({
     appointmentID: {
         type: String,
-        unique: true,
         required: [true, "Appointment ID is required"],
     },
     date: {
