@@ -1,7 +1,7 @@
 <h1 align=center>
    SDP Server
 </h1> 
-A JavaScript-based server application designed to [describe the purpose of the project briefly].
+A JavaScript-based server application designed to calculate eGFR values for patients with chronic kidney disease.
 
 ---
 
@@ -68,3 +68,4 @@ Explain how to configure the server, e.g., environment variables:
 ## License
 
 This project is licensed under the [CC0 1.0 License](LICENSE).
+
